@@ -1,8 +1,14 @@
 require("neotest").setup({
-    -- your neotest config here
-    adapters = {
-        require("neotest-go"),
-    }
+	adapters = {
+		require("neotest-go"),
+	},
+	require("neotest-python")({
+		-- See https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for values
+		dap = { justMyCode = false },
+	}),
+	-- require("neotest-rust") {
+	--	args = { "--no-capture" }
+	-- }
 })
 
 vim.keymap.set("n", "<leader>tl", function() require("neotest").summary.toggle() end)
