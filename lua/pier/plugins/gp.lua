@@ -22,6 +22,10 @@ return {
 					},
 					system_prompt = "You are a general AI assistant.",
 				},
+				{
+					name = "CodeOllamaLlama3.1-8B",
+					disable = true,
+				},
 			},
 			default_chat_agent = "OllamaGemma",
 		}
