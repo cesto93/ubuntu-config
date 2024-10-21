@@ -7,11 +7,17 @@ return {
 					disable = false, 
 					endpoint = "http://localhost:11434/v1/chat/completions", 
 				},
-				openai = { 
-					disable = true, 
-				},
 			},
 			agents = {
+				{
+					name = "ChatGPT",
+					chat = true,
+					command = false,
+					-- string with model name or table with model name and parameters
+					model = { model = "gpt-4o", temperature = 1.1, top_p = 1 },
+					-- system prompt (use this to specify the persona/role of the AI)
+					system_prompt = require("gp.defaults").chat_system_prompt,
+				},
 				{
 					provider = "ollama",
 					name = "OllamaGemma",
@@ -19,6 +25,16 @@ return {
 					command = true,
 					model = {
 						model = "gemma2:2b",
+					},
+					system_prompt = "You are a general AI assistant.",
+				},
+				{
+					provider = "ollama",
+					name = "OllamaPhi",
+					chat = true,
+					command = true,
+					model = {
+						model = "phi3.5",
 					},
 					system_prompt = "You are a general AI assistant.",
 				},
@@ -45,8 +61,8 @@ return {
 				end,
 			},
 
-			default_chat_agent = "OllamaGemma",
-			default_code_agent = "OllamaGemma",
+			default_chat_agent = "ChatGPT",
+			default_code_agent = "ChatGPT",
 		}
 		require("gp").setup(conf)
 	end,
