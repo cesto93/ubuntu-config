@@ -25,6 +25,8 @@ For managing plugins use:
 
 ```
 :Lazy Update
+
+:Mason
 ```
 
 ## Remaps
@@ -42,6 +44,7 @@ For managing plugins use:
 
 - nvim
 - git
+- node js
 
 # Links
 
