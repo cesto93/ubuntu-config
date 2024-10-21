@@ -27,7 +27,26 @@ return {
 					disable = true,
 				},
 			},
+
+			hooks = {
+				UnitTests = function(gp, params)
+					local template = "I have the following code from {{filename}}:\n\n"
+					.. "```{{filetype}}\n{{selection}}\n```\n\n"
+					.. "Please respond by writing unit tests for the code above."
+					local agent = gp.get_chat_agent()
+					gp.Prompt(params, gp.Target.vnew, agent, template)
+				end,
+				Explain = function(gp, params)
+					local template = "I have the following code from {{filename}}:\n\n"
+					.. "```{{filetype}}\n{{selection}}\n```\n\n"
+					.. "Please respond by explaining the code above."
+					local agent = gp.get_chat_agent()
+					gp.Prompt(params, gp.Target.vnew, agent, template)
+				end,
+			},
+
 			default_chat_agent = "OllamaGemma",
+			default_code_agent = "OllamaGemma",
 		}
 		require("gp").setup(conf)
 	end,

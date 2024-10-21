@@ -36,6 +36,7 @@ For managing plugins use:
 - ![lsp remaps](after/plugin/lsp.lua)
 - ![test remaps](after/plugin/neotest.lua)
 - ![telescope remaps](after/plugin/telescope.lua)
+- ![gp remaps](after/plugin/gp.lua)
 
 ## Instructions
 ./install.sh
