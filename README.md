@@ -3,5 +3,45 @@
 Contains nvim and tmux.
 Feel free to use it!
 
-# Instructions
+## Packet manager
+
+Lazy packet manager
+
+## Plugins used
+
+- gp.nvim: gpt like calls
+- mason: manage editor tools
+- neotest: launching tests
+- rosepine: fonts
+- telescope: fuzzy finder
+- treesitter: language syntax
+- lspzero: lsp
+- coverage: code coverage
+
+## Manage plugin
+
+For managing plugins use:
+
+```
+:Lazy Update
+```
+
+## Remaps
+
+## Instructions
 ./install.sh
+
+### Requirements
+
+- nvim
+- git
+
+# Links
+
+https://github.com/folke/lazy.nvim
+https://github.com/Robitx/gp.nvim
+https://github.com/williamboman/mason.nvim
+https://github.com/andythigpen/nvim-coverage
+https://github.com/nvim-neotest/neotest
+https://github.com/nvim-treesitter/nvim-treesitter
+https://github.com/VonHeikemen/lsp-zero.nvim
