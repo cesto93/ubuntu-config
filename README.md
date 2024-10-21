@@ -2,6 +2,7 @@
 
 Contains nvim and tmux.
 Feel free to use it!
+Inspired by theprimagen.
 
 ## Packet manager
 
