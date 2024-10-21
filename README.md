@@ -28,6 +28,12 @@ For managing plugins use:
 
 ## Remaps
 
+- ![remaps](lua/remap.lua)
+- ![coverage remaps](after/plugin/coverage.lua)
+- ![lsp remaps](after/plugin/lsp.lua)
+- ![test remaps](after/plugin/neotest.lua)
+- ![telescope remaps](after/plugin/telescope.lua)
+
 ## Instructions
 ./install.sh
 
@@ -38,10 +44,10 @@ For managing plugins use:
 
 # Links
 
-https://github.com/folke/lazy.nvim
-https://github.com/Robitx/gp.nvim
-https://github.com/williamboman/mason.nvim
-https://github.com/andythigpen/nvim-coverage
-https://github.com/nvim-neotest/neotest
-https://github.com/nvim-treesitter/nvim-treesitter
-https://github.com/VonHeikemen/lsp-zero.nvim
+- https://github.com/folke/lazy.nvim
+- https://github.com/Robitx/gp.nvim
+- https://github.com/williamboman/mason.nvim
+- https://github.com/andythigpen/nvim-coverage
+- https://github.com/nvim-neotest/neotest
+- https://github.com/nvim-treesitter/nvim-treesitter
+- https://github.com/VonHeikemen/lsp-zero.nvim
