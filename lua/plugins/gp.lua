@@ -12,21 +12,11 @@ return {
 				{
 					name = "ChatGPT",
 					chat = true,
-					command = false,
+					command = true,
 					-- string with model name or table with model name and parameters
 					model = { model = "gpt-4o", temperature = 1.1, top_p = 1 },
 					-- system prompt (use this to specify the persona/role of the AI)
 					system_prompt = require("gp.defaults").chat_system_prompt,
-				},
-				{
-					provider = "ollama",
-					name = "OllamaGemma",
-					chat = true,
-					command = true,
-					model = {
-						model = "gemma2:2b",
-					},
-					system_prompt = "You are a general AI assistant.",
 				},
 				{
 					provider = "ollama",
