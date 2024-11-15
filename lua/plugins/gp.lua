@@ -19,12 +19,12 @@ return {
 					system_prompt = require("gp.defaults").chat_system_prompt,
 				},
 				{
+					name = "Qwen2",
 					provider = "ollama",
-					name = "OllamaPhi",
 					chat = true,
 					command = true,
 					model = {
-						model = "phi3.5",
+						model = "qwen2.5-coder:3b",
 					},
 					system_prompt = "You are a general AI assistant.",
 				},
@@ -51,8 +51,8 @@ return {
 				end,
 			},
 
-			default_chat_agent = "ChatGPT",
-			default_code_agent = "ChatGPT",
+			default_chat_agent = "Qwen2",
+			default_code_agent = "Qwen2",
 		}
 		require("gp").setup(conf)
 	end,
