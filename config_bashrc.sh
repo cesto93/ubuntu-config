@@ -10,12 +10,6 @@ export PATH=$PATH:$(go env GOPATH)/bin
 #Pier alias
 alias codium="flatpak run com.vscodium.codium"
 alias obsidian="flatpak run md.obsidian.Obsidian"
-
-# tmux variables
-export TSESH_DIRS="$HOME/Desktop/repos/ "
-if [[ -n "$TMUX" ]]; then
-    tmux set-environment -g TSESH_DIRS "$TSESH_DIRS"
-fi
 '
 
 # Append the lines to .bashrc
