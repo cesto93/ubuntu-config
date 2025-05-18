@@ -6,10 +6,6 @@ LINES_TO_ADD='
 export PATH="$HOME/.local/bin:$PATH"
 export PATH=$PATH:$(go env GOPATH)/bin
 . "$HOME/.cargo/env"
-
-#Pier alias
-alias codium="flatpak run com.vscodium.codium"
-alias obsidian="flatpak run md.obsidian.Obsidian"
 '
 
 # Append the lines to .bashrc
