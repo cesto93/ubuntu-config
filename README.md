@@ -11,7 +11,7 @@ Feel free to use it!
 
 ## NVIM 
 
-You can find details in ![nvim.md] .
+You can find details in [nvim.md](nvim.md).
 
 ### To install
 ./install.sh
