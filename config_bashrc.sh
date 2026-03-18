@@ -2,9 +2,12 @@
 
 # Define the lines to be added
 LINES_TO_ADD='
-#CUSTOM pier
+# Add local bin
 export PATH="$HOME/.local/bin:$PATH"
+
+# Add go bin
 export PATH=$PATH:$(go env GOPATH)/bin
+
 . "$HOME/.cargo/env"
 '
 
