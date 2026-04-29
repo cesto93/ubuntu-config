@@ -23,7 +23,8 @@ require('mason-lspconfig').setup({
     lsp_zero.default_setup,
     lua_ls = function()
       local lua_opts = lsp_zero.nvim_lua_ls()
-      require('lspconfig').lua_ls.setup(lua_opts)
+      vim.lsp.config('lua_ls', lua_opts)
+      vim.lsp.enable('lua_ls')
     end,
   }
 })
@@ -41,10 +42,11 @@ cmp.setup({
   }),
 })
 
-require('lspconfig').gopls.setup({
+vim.lsp.config('gopls', {
     settings = {
         gopls = {
             gofumpt = true
         }
     }
 })
+vim.lsp.enable('gopls')
