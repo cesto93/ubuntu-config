@@ -1,5 +1,6 @@
 #!/bin/bash
 
 # dependency
-apt install gcc
+sudo apt install gcc
+rm -rf ~/.config/nvim
 cp -r nvim  ~/.config/
