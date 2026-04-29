@@ -4,7 +4,7 @@ PACKAGE=$1
 
 if [ -z "$PACKAGE" ]; then
     echo "Usage: $0 <package>"
-    echo "Available packages: nvim, latex, plantuml, go, llamacpp"
+    echo "Available packages: nvim, latex, plantuml, go, llamacpp, rust"
     exit 1
 fi
 
@@ -40,9 +40,13 @@ case $PACKAGE in
         echo "Installing llama.cpp via brew..."
         brew install llama.cpp
         ;;
+    rust)
+        echo "Installing rust..."
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+        ;;
     *)
         echo "Unknown package: $PACKAGE"
-        echo "Available packages: nvim, latex, plantuml, go, llamacpp"
+        echo "Available packages: nvim, latex, plantuml, go, llamacpp, rust"
         exit 1
         ;;
 esac
