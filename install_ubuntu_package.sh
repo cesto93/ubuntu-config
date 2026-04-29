@@ -4,11 +4,33 @@ PACKAGE=$1
 
 if [ -z "$PACKAGE" ]; then
     echo "Usage: $0 <package>"
-    echo "Available packages: nvim, latex, plantuml, go, llamacpp, rust"
+    echo "Available packages: brew, tmux, nvim, latex, plantuml, go, llamacpp, rust"
     exit 1
 fi
 
 case $PACKAGE in
+    brew)
+        echo "Installing Homebrew..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        echo -e "\n# Homebrew\nexport PATH=\"/home/linuxbrew/.linuxbrew/bin:\$PATH\"" >> ~/.bashrc
+        echo "The lines have been added to ~/.bashrc. Please restart your terminal or run 'source ~/.bashrc' to apply the changes."
+        ;;
+    tmux)
+        echo "Configuring tmux..."
+        mkdir -p ~/.config/tmux/
+        cp -r tmux/* ~/.config/tmux/
+        echo "Installing fzf dependency..."
+        sudo apt update && sudo apt install -y fzf
+        cat << 'EOF' >> ~/.bashrc
+
+# tmux variables
+export TSESH_DIRS="$HOME/repos/ "
+if [[ -n "$TMUX" ]]; then
+    tmux set-environment -g TSESH_DIRS "$TSESH_DIRS"
+fi
+EOF
+        echo "The lines have been added to ~/.bashrc. Please restart your terminal or run 'source ~/.bashrc' to apply the changes."
+        ;;
     nvim)
         echo "Installing nvim via snap..."
         sudo snap install nvim --classic
@@ -46,7 +68,7 @@ case $PACKAGE in
         ;;
     *)
         echo "Unknown package: $PACKAGE"
-        echo "Available packages: nvim, latex, plantuml, go, llamacpp, rust"
+        echo "Available packages: brew, tmux, nvim, latex, plantuml, go, llamacpp, rust"
         exit 1
         ;;
 esac
