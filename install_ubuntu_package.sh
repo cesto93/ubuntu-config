@@ -33,6 +33,8 @@ case $PACKAGE in
         sudo snap install go --classic
         echo "Installing goplantuml..."
         sudo go install github.com/jfeliu007/goplantuml/cmd/goplantuml@latest
+        echo "Installing gopls..."
+        go install golang.org/x/tools/gopls@latest
         ;;
     llamacpp)
         echo "Installing llama.cpp via brew..."
