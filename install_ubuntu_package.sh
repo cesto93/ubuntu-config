@@ -55,9 +55,11 @@ EOF
         sudo snap install go --classic
         echo "Installing goplantuml..."
         sudo go install github.com/jfeliu007/goplantuml/cmd/goplantuml@latest
-        echo "Installing gopls..."
-        go install golang.org/x/tools/gopls@latest
-        ;;
+    echo "Installing gopls..."
+    go install golang.org/x/tools/gopls@latest
+    echo -e "\n# Go\nexport PATH=\"\$HOME/go/bin:\$PATH\"" >> ~/.bashrc
+    echo "The lines have been added to ~/.bashrc. Please restart your terminal or run 'source ~/.bashrc' to apply the changes."
+    ;;
     llamacpp)
         echo "Installing llama.cpp via brew..."
         brew install llama.cpp
