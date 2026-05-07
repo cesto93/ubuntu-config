@@ -4,9 +4,9 @@ PACKAGE=$1
 
 if [ -z "$PACKAGE" ]; then
     echo "Usage: $0 <package>"
-    echo "Available packages: brew, tmux, nvim, latex, plantuml, go, llamacpp, rust"
-    exit 1
-fi
+    echo "Available packages: brew, tmux, nvim, latex, plantuml, go, llamacpp, rust, opencode"
+        exit 1
+    fi
 
 case $PACKAGE in
     brew)
@@ -68,9 +68,14 @@ EOF
         echo "Installing rust..."
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
         ;;
+    opencode)
+        echo "Configuring opencode..."
+        mkdir -p ~/.config/opencode/
+        cp -r opencode/* ~/.config/opencode/
+        ;;
     *)
         echo "Unknown package: $PACKAGE"
-        echo "Available packages: brew, tmux, nvim, latex, plantuml, go, llamacpp, rust"
+        echo "Available packages: brew, tmux, nvim, latex, plantuml, go, llamacpp, rust, opencode"
         exit 1
         ;;
 esac
