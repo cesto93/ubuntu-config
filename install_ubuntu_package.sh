@@ -36,6 +36,10 @@ EOF
         sudo snap install nvim --classic
         echo "Installing fzf dependency..."
         sudo apt update && sudo apt install -y fzf
+        echo "Installing gcc dependency..."
+        sudo apt install -y gcc
+        rm -rf ~/.config/nvim
+        cp -r nvim ~/.config/
         ;;
     latex)
         echo "Installing LaTeX and Pandoc..."
