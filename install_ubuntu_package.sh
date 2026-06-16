@@ -74,8 +74,9 @@ EOF
         ;;
     opencode)
         echo "Configuring opencode..."
-        mkdir -p ~/.config/opencode/
-        cp -r opencode/* ~/.config/opencode/
+        mkdir -p ~/.config/opencode/ ~/.opencode/commands/
+        cp opencode/AGENTS.md opencode/opencode.json ~/.config/opencode/
+        cp -r opencode/commands/* ~/.opencode/commands/
         ;;
     *)
         echo "Unknown package: $PACKAGE"
