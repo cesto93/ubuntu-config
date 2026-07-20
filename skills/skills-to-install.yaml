@@ -1,0 +1,6 @@
+# Skills to install via `npx skills add`.
+# One source per line (owner/repo, full URL, or a direct skill path).
+# Additional flags (e.g. --skill name) can be appended after the source.
+- https://github.com/google-ai-edge/LiteRT-LM/tree/main/agents/skills/create-litert-lm-android-demo-app
+- run-llama/llamaparse-agent-skills --skill liteparse
+- https://github.com/WH-2099/mermaid-skill/tree/main/.claude/skills
