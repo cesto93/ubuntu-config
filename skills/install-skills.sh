@@ -26,7 +26,7 @@ fi
 for src in "${SKILLS_TO_ADD[@]}"; do
   echo "==> Installing: ${src}"
   # shellcheck disable=SC2086
-  npx --yes skills add ${src} --yes --global --agent opencode
+  bunx --yes skills add ${src} --yes --global --agent opencode
 done
 
 echo "==> Done."
