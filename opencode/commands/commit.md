@@ -15,5 +15,4 @@ Rules:
 - Breaking changes: append `!` after type/scope, e.g. `feat(api)!: ...`.
 - Body: separate from subject with a blank line, wrap at 72 chars, explain **what** and **why** (not how).
 - If the change is trivial, omit the body. Otherwise include a body.
-- Use `git log --oneline -5` first to understand recent context and avoid duplicate-style messages.
 - Use `git diff --cached` to review exactly what is staged before writing the message.
