@@ -18,13 +18,12 @@ end)
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = {'gopls'},
+  ensure_installed = {'gopls', 'rust_analyzer', 'ruff_lsp'},
   handlers = {
     lsp_zero.default_setup,
     lua_ls = function()
       local lua_opts = lsp_zero.nvim_lua_ls()
-      vim.lsp.config('lua_ls', lua_opts)
-      vim.lsp.enable('lua_ls')
+      require('lspconfig').lua_ls.setup(lua_opts)
     end,
   }
 })
@@ -42,11 +41,10 @@ cmp.setup({
   }),
 })
 
-vim.lsp.config('gopls', {
+require('lspconfig').gopls.setup({
     settings = {
         gopls = {
             gofumpt = true
         }
     }
 })
-vim.lsp.enable('gopls')

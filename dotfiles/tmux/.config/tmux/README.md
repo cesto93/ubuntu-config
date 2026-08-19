@@ -7,11 +7,12 @@ To make this configuration working some dependencies are required:
 - [fzf](https://github.com/junegunn/fzf)
 
 # Installing
+Type in your terminal 
 ```bash
-./install.sh
+$ git clone https://github.com/cedrata/tmux.conf.git ~/.config/tmux
 ```
 
-Append the following content to your `.zshrc` or `.bashrc` replacing the values of `TSESH_DIRS` with the directories where you want to apply the `find` command.
+Once the directory is cloned append the following content to your `.zshrc` or `.bashrc` replacing the values of `TSESH_DIRS` with the directories where you want to apply the `find` command.
 ```bash
 # tmux variables
 export TSESH_DIRS="$HOME/Dev $HOME/.config"

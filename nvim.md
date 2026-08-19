@@ -38,7 +38,7 @@ For managing plugins use:
 - ![gp remaps](after/plugin/gp.lua)
 
 ## Instructions
-./install.sh
+stow -d dotfiles -t ~ nvim
 
 ### Requirements
 

@@ -1,12 +1,22 @@
 #!/bin/bash
 
+set -eu
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+STOW_DIR="$SCRIPT_DIR/dotfiles"
+
 PACKAGE=$1
 
 if [ -z "$PACKAGE" ]; then
     echo "Usage: $0 <package>"
-    echo "Available packages: brew, tmux, nvim, latex, plantuml, go, llamacpp, rust, opencode"
-        exit 1
-    fi
+    echo "Available packages: brew, tmux, nvim, zed, latex, plantuml, go, llamacpp, rust, opencode"
+    exit 1
+fi
+
+stow_pkg() {
+    local pkg=$1
+    stow -d "$STOW_DIR" -t "$HOME" "$pkg"
+}
 
 case $PACKAGE in
     brew)
@@ -17,8 +27,7 @@ case $PACKAGE in
         ;;
     tmux)
         echo "Configuring tmux..."
-        mkdir -p ~/.config/tmux/
-        cp -r tmux/* ~/.config/tmux/
+        stow_pkg tmux
         echo "Installing fzf dependency..."
         sudo apt update && sudo apt install -y fzf
         cat << 'EOF' >> ~/.bashrc
@@ -38,8 +47,13 @@ EOF
         sudo apt update && sudo apt install -y fzf
         echo "Installing gcc dependency..."
         sudo apt install -y gcc
-        rm -rf ~/.config/nvim
-        cp -r nvim ~/.config/
+        echo "Installing tree-sitter-cli dependency..."
+        brew install tree-sitter-cli
+        stow_pkg nvim
+        ;;
+    zed)
+        echo "Configuring zed..."
+        stow_pkg zed
         ;;
     latex)
         echo "Installing LaTeX and Pandoc..."
@@ -49,10 +63,8 @@ EOF
     plantuml)
         echo "Installing PlantUML dependencies..."
         sudo apt update && sudo apt install -y graphviz
-        mkdir -p /home/pier/.local/bin
-        cp scripts/plantuml.sh /home/pier/.local/bin/plantuml.sh
-        chmod +x /home/pier/.local/bin/plantuml.sh
-        echo "PlantUML script copied to /home/pier/.local/bin/plantuml.sh"
+        stow_pkg local
+        echo "PlantUML script symlinked to ~/.local/bin/plantuml.sh"
         ;;
     go)
         echo "Installing Go via snap..."
@@ -74,13 +86,11 @@ EOF
         ;;
     opencode)
         echo "Configuring opencode..."
-        mkdir -p ~/.config/opencode/ ~/.opencode/commands/
-        cp opencode/AGENTS.md opencode/opencode.json ~/.config/opencode/
-        cp -r opencode/commands/* ~/.opencode/commands/
+        stow_pkg opencode
         ;;
     *)
         echo "Unknown package: $PACKAGE"
-        echo "Available packages: brew, tmux, nvim, latex, plantuml, go, llamacpp, rust, opencode"
+        echo "Available packages: brew, tmux, nvim, zed, latex, plantuml, go, llamacpp, rust, opencode"
         exit 1
         ;;
 esac
