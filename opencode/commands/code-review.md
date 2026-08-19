@@ -3,7 +3,7 @@ description: Review code for defects, duplication, and quality issues
 agent: plan
 ---
 
-Review the code in $ARGUMENTS for quality issues and propose concrete fixes. Do not edit files.
+Review the code for quality issues and propose concrete fixes.
 
 Hunt for defects:
 - Logic errors: off-by-one, wrong comparisons, inverted conditions, missed edge cases (empty inputs, null, single element, boundary values).
