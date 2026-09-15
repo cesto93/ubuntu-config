@@ -4,7 +4,7 @@
 #
 # Usage:
 #   compress-pdfs.sh [DIRECTORY] [QUALITY]
-#   compress-pdfs.sh [-q|--quality QUALITY] [DIRECTORY]
+#   compress-pdfs.sh [-q|--quality QUALITY] [-r|--recursive] [DIRECTORY]
 #   compress-pdfs.sh -h|--help
 #
 # Arguments:
@@ -16,26 +16,35 @@
 #                prepress - 300 dpi, color preserving, largest size
 #                default  - Ghostscript default (nearly no compression)
 #
+# Options:
+#   -q, --quality QUALITY  Set compression quality (see above).
+#   -r, --recursive        Recurse into subdirectories. Directory structure
+#                          is preserved under <DIRECTORY>/compressed/.
+#
 # Output:
 #   Compressed files are written to <DIRECTORY>/compressed/<name>.pdf
+#   (non-recursive) or <DIRECTORY>/compressed/<relative-path>.pdf (recursive).
 #   Originals are left untouched.
 #
 # Example:
 #   compress-pdfs.sh ~/Documents ebook
 #   compress-pdfs.sh -q screen ~/Documents
 #   compress-pdfs.sh --quality printer .
+#   compress-pdfs.sh -r ~/Documents
+#   compress-pdfs.sh --recursive -q screen ~/Documents
 
 set -euo pipefail
 
 QUALITY="ebook"
 DIRECTORY="."
+RECURSIVE=0
 
 usage() {
-    sed -n '2,26p' "$0" | sed 's/^# //; s/^#//'
+    sed -n '2,34p' "$0" | sed 's/^# //; s/^#//'
     exit "${1:-0}"
 }
 
-# Parse args: support both positional and -q/--quality flags.
+# Parse args: support both positional and -q/--quality, -r/--recursive flags.
 POSITIONAL=()
 while [ "$#" -gt 0 ]; do
     case "$1" in
@@ -49,6 +58,10 @@ while [ "$#" -gt 0 ]; do
             fi
             QUALITY="$2"
             shift 2
+            ;;
+        -r|--recursive)
+            RECURSIVE=1
+            shift
             ;;
         -*)
             echo "Error: unknown option: $1" >&2
@@ -97,19 +110,35 @@ if [ ! -d "$DIRECTORY" ]; then
     exit 1
 fi
 
+# Strip trailing slash (except root) so relative-path computation works.
+if [ "$DIRECTORY" != "/" ]; then
+    DIRECTORY="${DIRECTORY%/}"
+fi
+
 OUT_DIR="$DIRECTORY/compressed"
 mkdir -p "$OUT_DIR"
 
-shopt -s nullglob nocaseglob
-PDFS=("$DIRECTORY"/*.pdf)
-shopt -u nullglob nocaseglob
+PDFS=()
+if [ "$RECURSIVE" -eq 1 ]; then
+    while IFS= read -r -d '' PDF; do
+        PDFS+=("$PDF")
+    done < <(find "$DIRECTORY" -path "$OUT_DIR/*" -prune -o -type f -iname '*.pdf' -print0)
+else
+    shopt -s nullglob nocaseglob
+    PDFS=("$DIRECTORY"/*.pdf)
+    shopt -u nullglob nocaseglob
+fi
 
 if [ "${#PDFS[@]}" -eq 0 ]; then
     echo "No PDF files found in $DIRECTORY"
     exit 0
 fi
 
-echo "Compressing ${#PDFS[@]} PDF(s) in '$DIRECTORY' with quality '/$QUALITY'..."
+if [ "$RECURSIVE" -eq 1 ]; then
+    echo "Compressing ${#PDFS[@]} PDF(s) in '$DIRECTORY' and subdirectories with quality '/$QUALITY'..."
+else
+    echo "Compressing ${#PDFS[@]} PDF(s) in '$DIRECTORY' with quality '/$QUALITY'..."
+fi
 echo "Output directory: '$OUT_DIR'"
 echo ""
 
@@ -118,14 +147,25 @@ FAILED=0
 
 for INPUT in "${PDFS[@]}"; do
     BASENAME="$(basename "$INPUT")"
-    OUTPUT="$OUT_DIR/$BASENAME"
+    if [ "$RECURSIVE" -eq 1 ]; then
+        # Preserve directory structure relative to DIRECTORY.
+        REL="${INPUT#"$DIRECTORY"/}"
+        # Handle DIRECTORY="." where find yields "./file.pdf".
+        REL="${REL#./}"
+        OUTPUT="$OUT_DIR/$REL"
+        mkdir -p "$(dirname "$OUTPUT")"
+        DISPLAY="$REL"
+    else
+        OUTPUT="$OUT_DIR/$BASENAME"
+        DISPLAY="$BASENAME"
+    fi
 
     # Skip files that are already our own output if DIRECTORY == OUT_DIR.
     if [ "$INPUT" -ef "$OUTPUT" ]; then
         continue
     fi
 
-    echo "-> $BASENAME"
+    echo "-> $DISPLAY"
     if gs -sDEVICE=pdfwrite \
         -dCompatibilityLevel=1.4 \
         "-dPDFSETTINGS=/$QUALITY" \
@@ -137,7 +177,7 @@ for INPUT in "${PDFS[@]}"; do
         echo "   done: $BEFORE -> $AFTER ($OUTPUT)"
         SUCCESS=$((SUCCESS + 1))
     else
-        echo "   FAILED: $BASENAME" >&2
+        echo "   FAILED: $DISPLAY" >&2
         FAILED=$((FAILED + 1))
     fi
 done
