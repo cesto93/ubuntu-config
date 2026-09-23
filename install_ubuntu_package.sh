@@ -5,7 +5,7 @@ set -eu
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 STOW_DIR="$SCRIPT_DIR/dotfiles"
 
-PACKAGE=$1
+PACKAGE="${1:-}"
 
 if [ -z "$PACKAGE" ]; then
     echo "Usage: $0 <package>"
