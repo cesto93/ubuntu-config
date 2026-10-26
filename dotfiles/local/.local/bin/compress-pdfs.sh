@@ -1,14 +1,16 @@
 #!/bin/bash
 #
-# Compress all PDFs in a directory using Ghostscript.
+# Compress PDFs in a directory (or a single PDF file) using Ghostscript.
 #
 # Usage:
 #   compress-pdfs.sh [DIRECTORY] [QUALITY]
+#   compress-pdfs.sh [FILE.pdf] [QUALITY]
 #   compress-pdfs.sh [-q|--quality QUALITY] [-r|--recursive] [DIRECTORY]
 #   compress-pdfs.sh -h|--help
 #
 # Arguments:
 #   DIRECTORY  Directory containing PDFs to compress (default: current directory).
+#   FILE.pdf   Alternatively, a single PDF file to compress.
 #   QUALITY    Ghostscript PDFSETTINGS preset (default: ebook):
 #                screen   - 72 dpi, smallest size, screen viewing only
 #                ebook    - 150 dpi, good balance of size/quality
@@ -24,6 +26,7 @@
 # Output:
 #   Compressed files are written to <DIRECTORY>/compressed/<name>.pdf
 #   (non-recursive) or <DIRECTORY>/compressed/<relative-path>.pdf (recursive).
+#   For a single file, output is <file-dir>/compressed/<name>.pdf.
 #   Originals are left untouched.
 #
 # Example:
@@ -32,6 +35,7 @@
 #   compress-pdfs.sh --quality printer .
 #   compress-pdfs.sh -r ~/Documents
 #   compress-pdfs.sh --recursive -q screen ~/Documents
+#   compress-pdfs.sh ~/Documents/thesis.pdf screen
 
 set -euo pipefail
 
@@ -40,7 +44,7 @@ DIRECTORY="."
 RECURSIVE=0
 
 usage() {
-    sed -n '2,34p' "$0" | sed 's/^# //; s/^#//'
+    sed -n '2,39p' "$0" | sed 's/^# //; s/^#//'
     exit "${1:-0}"
 }
 
@@ -105,21 +109,37 @@ if ! command -v gs >/dev/null 2>&1; then
     exit 1
 fi
 
-if [ ! -d "$DIRECTORY" ]; then
-    echo "Error: directory not found: $DIRECTORY" >&2
-    exit 1
-fi
-
 # Strip trailing slash (except root) so relative-path computation works.
 if [ "$DIRECTORY" != "/" ]; then
     DIRECTORY="${DIRECTORY%/}"
+fi
+
+# Allow the first argument to be a single PDF file instead of a directory.
+SINGLE_FILE=""
+if [ -f "$DIRECTORY" ]; then
+    case "${DIRECTORY,,}" in
+        *.pdf)
+            SINGLE_FILE="$DIRECTORY"
+            DIRECTORY="$(dirname "$SINGLE_FILE")"
+            ;;
+        *)
+            echo "Error: not a PDF file: $SINGLE_FILE" >&2
+            echo "Only *.pdf files are supported." >&2
+            exit 1
+            ;;
+    esac
+elif [ ! -d "$DIRECTORY" ]; then
+    echo "Error: directory or file not found: $DIRECTORY" >&2
+    exit 1
 fi
 
 OUT_DIR="$DIRECTORY/compressed"
 mkdir -p "$OUT_DIR"
 
 PDFS=()
-if [ "$RECURSIVE" -eq 1 ]; then
+if [ -n "$SINGLE_FILE" ]; then
+    PDFS=("$SINGLE_FILE")
+elif [ "$RECURSIVE" -eq 1 ]; then
     while IFS= read -r -d '' PDF; do
         PDFS+=("$PDF")
     done < <(find "$DIRECTORY" -path "$OUT_DIR/*" -prune -o -type f -iname '*.pdf' -print0)
@@ -134,7 +154,9 @@ if [ "${#PDFS[@]}" -eq 0 ]; then
     exit 0
 fi
 
-if [ "$RECURSIVE" -eq 1 ]; then
+if [ -n "$SINGLE_FILE" ]; then
+    echo "Compressing '$SINGLE_FILE' with quality '/$QUALITY'..."
+elif [ "$RECURSIVE" -eq 1 ]; then
     echo "Compressing ${#PDFS[@]} PDF(s) in '$DIRECTORY' and subdirectories with quality '/$QUALITY'..."
 else
     echo "Compressing ${#PDFS[@]} PDF(s) in '$DIRECTORY' with quality '/$QUALITY'..."
@@ -171,7 +193,7 @@ for INPUT in "${PDFS[@]}"; do
         "-dPDFSETTINGS=/$QUALITY" \
         -dNOPAUSE -dQUIET -dBATCH \
         -sOutputFile="$OUTPUT" \
-        "$INPUT"; then
+        "$INPUT" < /dev/null; then
         BEFORE="$(du -h "$INPUT" | cut -f1)"
         AFTER="$(du -h "$OUTPUT" | cut -f1)"
         echo "   done: $BEFORE -> $AFTER ($OUTPUT)"
