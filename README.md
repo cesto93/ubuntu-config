@@ -38,7 +38,7 @@ are symlinks back into `dotfiles/`.
 ### Per-app install
 
 `./install_ubuntu_package.sh <package>` also installs dependencies (snap/apt)
-and stows the config. Available: brew, tmux, nvim, zed, latex, plantuml, go,
+and stows the config. Available: brew, tmux, nvim, zed, latex, go,
 llamacpp, rust, opencode.
 
 ## NVIM

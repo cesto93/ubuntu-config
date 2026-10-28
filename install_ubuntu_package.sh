@@ -9,7 +9,7 @@ PACKAGE="${1:-}"
 
 if [ -z "$PACKAGE" ]; then
     echo "Usage: $0 <package>"
-    echo "Available packages: brew, tmux, nvim, zed, latex, plantuml, go, llamacpp, rust, opencode"
+    echo "Available packages: brew, tmux, nvim, zed, latex, go, llamacpp, rust, opencode"
     exit 1
 fi
 
@@ -60,17 +60,9 @@ EOF
         # Note: Correcting 'textlive-full' to 'texlive-full' from original script
         sudo apt update && sudo apt install -y texlive-full pandoc
         ;;
-    plantuml)
-        echo "Installing PlantUML dependencies..."
-        sudo apt update && sudo apt install -y graphviz
-        stow_pkg local
-        echo "PlantUML script symlinked to ~/.local/bin/plantuml.sh"
-        ;;
     go)
         echo "Installing Go via snap..."
         sudo snap install go --classic
-        echo "Installing goplantuml..."
-        sudo go install github.com/jfeliu007/goplantuml/cmd/goplantuml@latest
     echo "Installing gopls..."
     go install golang.org/x/tools/gopls@latest
     echo -e "\n# Go\nexport PATH=\"\$HOME/go/bin:\$PATH\"" >> ~/.bashrc
