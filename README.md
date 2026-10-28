@@ -31,10 +31,16 @@ are symlinks back into `dotfiles/`.
 ### Commands
 
 - `stow` to install: `stow -d dotfiles -t ~ <package>`
-- Or use the helper: `./scripts/stow.sh {push|pull|delete}`
+- Or use the helper: `./utils/stow.sh {push|pull|delete}`
   - `push`   adopt live changes into the repo and stage them
   - `pull`   (re)create the symlinks
   - `delete` remove the symlinks
+
+A package can exclude machine-specific or generated files from stow with a
+`.stow-local-ignore` file at its root (e.g.
+`dotfiles/opencode/.stow-local-ignore` skips `node_modules` and local
+`package*.json`). Note that this file replaces stow's built-in ignore list,
+so the defaults must be included as well.
 
 ### Per-app install
 

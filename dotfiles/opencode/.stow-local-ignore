@@ -1,0 +1,27 @@
+# Ignore list for this stow package.
+# NOTE: defining this file replaces stow's built-in default ignore list,
+# so the defaults are reproduced at the top before the package-specific rules.
+
+# --- stow defaults ---
+RCS
+.+,v
+\.\#.+
+\.cvsignore
+\.svn
+_darcs
+\.hg
+\.git
+\.gitignore
+\.gitmodules
+.+~
+\#.*\#
+^/README.*
+^/LICENSE.*
+^/COPYING
+
+# --- machine-specific OpenCode runtime files ---
+# These are generated locally (npm/bun install) and must never be stowed.
+^/\.opencode/node_modules(/.*)?$
+^/\.opencode/package\.json$
+^/\.opencode/package-lock\.json$
+^/\.opencode/bun\.lock$
