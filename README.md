@@ -22,11 +22,15 @@ dotfiles/
 ├── tmux/.config/tmux/...
 ├── zed/.config/zed/settings.json
 ├── opencode/.config/opencode/...
-└── local/.local/bin/plantuml.sh
+└── local/.local/bin/{clean_disk,compress-pdfs,update}.sh
 ```
 
 The repo is the source of truth; targets (`~/.config/<app>`, `~/.local/bin`)
 are symlinks back into `dotfiles/`.
+
+Scripts that need root (e.g. `update.sh`) live in `~/.local/bin` like any
+other user script and call `sudo` internally, so they are run as your user
+(`update.sh`, not `sudo update.sh`).
 
 ### Commands
 
