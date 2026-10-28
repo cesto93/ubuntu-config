@@ -43,6 +43,8 @@ EOF
     nvim)
         echo "Installing nvim via snap..."
         sudo snap install nvim --classic
+		echo "Config nvim as editor"
+		git config --global core.editor "nvim"
         echo "Installing fzf dependency..."
         sudo apt update && sudo apt install -y fzf
         echo "Installing gcc dependency..."
