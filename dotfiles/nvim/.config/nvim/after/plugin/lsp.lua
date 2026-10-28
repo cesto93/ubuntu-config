@@ -17,16 +17,13 @@ lsp_zero.on_attach(function(client, bufnr)
 end)
 
 require('mason').setup({})
+-- mason-lspconfig v2: 'handlers' was removed, installed servers are
+-- auto-enabled through vim.lsp.enable() (automatic_enable = true).
 require('mason-lspconfig').setup({
   ensure_installed = {'gopls', 'rust_analyzer', 'ruff'},
-  handlers = {
-    lsp_zero.default_setup,
-    lua_ls = function()
-      local lua_opts = lsp_zero.nvim_lua_ls()
-      require('lspconfig').lua_ls.setup(lua_opts)
-    end,
-  }
 })
+
+vim.lsp.config('lua_ls', lsp_zero.nvim_lua_ls())
 
 local cmp = require('cmp')
 
