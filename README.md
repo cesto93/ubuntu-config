@@ -1,6 +1,7 @@
 # This is my config
 
 This config is for my personal machine using ubuntu.
+
 I use the tools:
 - nvim
 - tmux
@@ -49,6 +50,17 @@ You can find details in [nvim.md](nvim.md).
 
 Config lives in `dotfiles/opencode/.config/opencode/`; commands in
 `dotfiles/opencode/.opencode/commands/`.
+
+## Diagrams
+
+Diagram cli using pele library and bun as runtime.
+It supports mermaid like diagrams.
+
+
+```
+cd utils/diagram-cli
+bun link
+```
 
 ### Links
 
