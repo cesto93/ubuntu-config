@@ -28,9 +28,9 @@ dotfiles/
 The repo is the source of truth; targets (`~/.config/<app>`, `~/.local/bin`)
 are symlinks back into `dotfiles/`.
 
-Scripts that need root (e.g. `update.sh`) live in `~/.local/bin` like any
-other user script and call `sudo` internally, so they are run as your user
-(`update.sh`, not `sudo update.sh`).
+Scripts that need root (e.g. `update.sh`, `clean_disk.sh`) live in
+`~/.local/bin` like any other user script and call `sudo` internally, so they
+are run as your user (`update.sh`, not `sudo update.sh`).
 
 ### Commands
 

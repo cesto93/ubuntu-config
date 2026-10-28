@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Disk/cache cleanup. Privileged steps use sudo, so run this as a normal user
+# (`clean_disk.sh`), not with sudo — otherwise ~ would expand to /root.
+
 # Exit on error
 set -eu
 
@@ -17,10 +20,12 @@ clean_snap() {
     echo "Cleaning old snap revisions..."
     # Note: Close all snaps before running this
     if command -v snap > /dev/null; then
+        # Ask for sudo credentials once, before the loop, so it can't abort midway.
+        sudo -v
         snap list --all | awk '/disabled/{print $1, $3}' |
-            while read snapname revision; do
+            while read -r snapname revision; do
                 echo "Removing $snapname revision $revision..."
-                snap remove "$snapname" --revision="$revision"
+                sudo snap remove "$snapname" --revision="$revision"
             done
     else
         echo "Error: 'snap' command not found."
