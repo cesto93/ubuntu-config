@@ -1,0 +1,11 @@
+{
+  "name": "diagrams-cli",
+  "version": "0.1.0",
+  "bin": {
+	  "diagrams-cli": "./diagrams.js"
+  },
+  "dependencies": {
+    "commander": "^15.0.0",
+    "pele": "^1.6.0"
+  }
+}
