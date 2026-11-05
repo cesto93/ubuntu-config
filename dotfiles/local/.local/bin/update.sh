@@ -32,8 +32,9 @@ update_brew() {
         return 0
     fi
 
-    "$brew_bin" update
-    "$brew_bin" upgrade
+    # Upgrades must be unattended: Homebrew 7 asks for confirmation by default.
+    HOMEBREW_NO_ASK=1 "$brew_bin" update
+    HOMEBREW_NO_ASK=1 "$brew_bin" upgrade
 }
 
 update_brew
