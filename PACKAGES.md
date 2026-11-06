@@ -10,9 +10,13 @@
 
 - nvm
 - npm
-- bun
+- bun: JS package manager
 
 ## Python
 
-- ruff
-- uv
+- ruff: python formatter
+- uv: python package manager
+
+## Tool for code analysis
+- jscpd (js): get duplicated code
+- tokei (rust): count lines of code
