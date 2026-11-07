@@ -19,4 +19,6 @@
 
 ## Tool for code analysis
 - jscpd (js): get duplicated code
+    bun install -g jscpd
 - tokei (rust): count lines of code
+    cargo install tokei
